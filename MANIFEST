@@ -1,0 +1,10 @@
+Changes
+LESMEG
+MANIFEST
+Makefile.PL
+NO.pm
+README
+bin/LESMEG
+bin/mkpostalinfo
+t/1_procedures.t
+t/2_objects.t
