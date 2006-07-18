@@ -1,0 +1,31 @@
+Updated postcodes
+------------------
+It is possible to update the postcodes yourself, but I do not recommend it.
+
+1. Check if the postcodes are up to date:
+   Go to "http://epab.posten.no/" and click on "Nedlasting" on the bottom 
+   of the page. If the date is older than the one given in the line after
+   "##mkpostalinfo begin" in NO.pm
+
+2. Fetch updated postcodes:
+   Get the file "http://epab.posten.no/Norsk/Nedlasting/_Files/tilbud5.txt",
+   and save it in the "./bin" directory.
+
+3. Update the postcodes:
+   Give the command "./bin/mkpostalinfo".
+   The old version of NO.pm is automatically renamed (with a trailing dot and
+   a large numer). Check the new file, as errors can occur if the structure of
+   the postcode file has changed.
+
+   A new file "NO.pm" is generated, with updated postcodes.
+
+4. Install the module:
+   Give the command 'make test install'.
+
+An explanation of the syntax on the postcode file  is given in the following
+document: "http://epab.posten.no/Norsk/Nedlasting/_Files/NorLayout.doc".
+
+Note that the tests (in "make test") are hard coded for a few selected
+postcodes, and can stop functioning if there are changes in one of them.
+I recommend that you instead wait for a new and updated version of the
+module. 

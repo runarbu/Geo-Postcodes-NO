@@ -2,7 +2,7 @@
 #                                                                             #
 #            Geo::Postcodes::NO Test Suite 2 - Object interface               #
 #            --------------------------------------------------               # 
-#               Arne Sommer - arne@cpan.org  - 07. July 2006                  #
+#               Arne Sommer - arne@cpan.org  - 13. July 2006                  #
 #                                                                             #
 ###############################################################################
 #                                                                             #
@@ -22,7 +22,7 @@ isa_ok($P, "Geo::Postcodes::NO");
 
 is( $P->postcode(),    "1178",         "Postnummerobjekt > Postnummer");
 is( $P->location(),  "OSLO",         "Postnummerobjekt > Kommunenummer");
-is( $P->borough_no(), "0301",         "Postnummerobjekt > Kommunenummer");
+is( $P->borough_number(), "0301",         "Postnummerobjekt > Kommunenummer");
 is( $P->borough(),   "OSLO",         "Postnummerobjekt > Kommune");
 is( $P->county(),     "OSLO",         "Postnummerobjekt > Fylke");
 is( $P->type(),  "Gateadresser", "Postnummer > Kategori");
@@ -34,7 +34,7 @@ isa_ok($P2, "Geo::Postcodes::NO");
 
 is( $P2->postcode(),    "2542",         "Postnummerobjekt > Postnummer");
 is( $P2->location(),  "VINGELEN",     "Postnummerobjekt > Kommunenummer");
-is( $P2->borough_no(), "0436",         "Postnummerobjekt > Kommunenummer");
+is( $P2->borough_number(), "0436",         "Postnummerobjekt > Kommunenummer");
 is( $P2->borough(),   "TOLGA",        "Postnummerobjekt > Kommune");
 is( $P2->county(),     "HEDMARK",      "Postnummerobjekt > Fylke");
 is( $P2->type(),  "Gateadresser", "Postnummer > Kategori");

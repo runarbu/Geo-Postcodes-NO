@@ -4,7 +4,9 @@ MANIFEST
 Makefile.PL
 NO.pm
 README
-bin/LESMEG
-bin/mkpostalinfo
+bin/README
+bin/update
 t/1_procedures.t
 t/2_objects.t
+t/3_selection.t
+t/4_check.t

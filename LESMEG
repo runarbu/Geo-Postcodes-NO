@@ -1,7 +1,7 @@
 Geo::Postcodes::NO::LESMEG
 -------------------------------------------------------------
-* Lei av stadig å måtte skrive inn poststed, når du vet at postnummeret du
-  allerede har skrevet inn uansett entydig bestemmer det?
+* Lei av stadig å måtte skrive inn poststed, når du vet at postnummeret
+  du allerede har skrevet inn uansett entydig bestemmer det?
 
 * Er kundene dine lei av det samme?
 
@@ -35,6 +35,6 @@ poststedet ved hjelp av AJAX (i praksis heller AHAH) i sanntid.
 Oppdatert oversikt
 ------------------
 Jeg skal forsøke å å holde postnummerlisten oppdatert, men det er mulig å
-gjøre dette selv (selv om jeg ikke anbefaler det). Se filen "./bin/LESMEG". 
+gjøre dette selv (selv om jeg ikke anbefaler det). Se filen "./bin/README". 
 
 Arne Sommer - arne@cpan.org
