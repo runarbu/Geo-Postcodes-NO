@@ -2,7 +2,7 @@
 #                                                                             #
 #          Geo::Postcodes::NO Test Suite 1 - Procedural interface             #
 #          ------------------------------------------------------             # 
-#               Arne Sommer - arne@cpan.org  - 07. July 2006                  #
+#               Arne Sommer - arne@cpan.org  - 19. July 2006                  #
 #                                                                             #
 ###############################################################################
 #                                                                             #
@@ -11,7 +11,7 @@
 #                                                                             #
 ###############################################################################
 
-use Test::More tests => 48;
+use Test::More tests => 52;
 
 BEGIN { use_ok('Geo::Postcodes::NO') };
 
@@ -36,25 +36,29 @@ ok( ! Geo::Postcodes::NO::valid ("Ett eller annet"), "Ulovlig postnummer");
 
 #################################################################################
 
-my $postnummer = "1178"; # My postal code.
+my $postcode = "1178"; # My postal code.
 
-is( Geo::Postcodes::NO::location_of ($postnummer), "OSLO", "Postnummer > Poststed");
-is( Geo::Postcodes::NO::borough_number_of($postnummer), "0301", "Postnummer > Kommunenummer");
-is( Geo::Postcodes::NO::borough_of  ($postnummer), "OSLO", "Postnummer > Kommune");
-is( Geo::Postcodes::NO::county_of    ($postnummer), "OSLO", "Postnummer > Fylke");
-is( Geo::Postcodes::NO::kommunenr2fylke (Geo::Postcodes::NO::borough_number_of($postnummer)), "OSLO", "Kommunenummer > Fylke");
-is( Geo::Postcodes::NO::type_of ($postnummer), "Gateadresser", "Postnummer > Kategori");
+is( Geo::Postcodes::NO::location_of      ($postcode), "OSLO", "Postnummer > Poststed");
+is( Geo::Postcodes::NO::borough_number_of($postcode), "0301", "Postnummer > Kommunenummer");
+is( Geo::Postcodes::NO::borough_of       ($postcode), "OSLO", "Postnummer > Kommune");
+is( Geo::Postcodes::NO::county_of        ($postcode), "OSLO", "Postnummer > Fylke");
+is( Geo::Postcodes::NO::kommunenr2fylke  (Geo::Postcodes::NO::borough_number_of($postcode)), "OSLO", "Kommunenummer > Fylke");
+is( Geo::Postcodes::NO::type_of          ($postcode), "ST",             "Postnummer > Kategori");
+is( Geo::Postcodes::NO::type_verbose_of  ($postcode), "Gateadresse",    "Postnummer > Kategori");
+is( Geo::Postcodes::type_verbose_of      ($postcode), undef,            "Postnummer > Kategori");
 
 ## Try another one, where the names differ. #####################################
 
-$postnummer = "2542"; # Another one.
+$postcode = "2542"; # Another one.
 
-is( Geo::Postcodes::NO::location_of ($postnummer), "VINGELEN", "Postnummer > Poststed");
-is( Geo::Postcodes::NO::borough_number_of($postnummer), "0436",     "Postnummer > Kommunenummer");
-is( Geo::Postcodes::NO::borough_of  ($postnummer), "TOLGA",    "Postnummer > Kommune");
-is( Geo::Postcodes::NO::county_of    ($postnummer), "HEDMARK",  "Postnummer > Fylke");
-is( Geo::Postcodes::NO::kommunenr2fylke (Geo::Postcodes::NO::borough_number_of($postnummer)), "HEDMARK", "Kommunenummer > Fylke");
-is( Geo::Postcodes::NO::type_of ($postnummer), "Gateadresser", "Postnummer > Kategori");
+is( Geo::Postcodes::NO::location_of      ($postcode), "VINGELEN", "Postnummer > Poststed");
+is( Geo::Postcodes::NO::borough_number_of($postcode), "0436",     "Postnummer > Kommunenummer");
+is( Geo::Postcodes::NO::borough_of       ($postcode), "TOLGA",    "Postnummer > Kommune");
+is( Geo::Postcodes::NO::county_of        ($postcode), "HEDMARK",  "Postnummer > Fylke");
+is( Geo::Postcodes::NO::kommunenr2fylke  (Geo::Postcodes::NO::borough_number_of($postcode)), "HEDMARK", "Kommunenummer > Fylke");
+is( Geo::Postcodes::NO::type_of          ($postcode), "ST",           "Postnummer > Kategori");
+is( Geo::Postcodes::NO::type_verbose_of  ($postcode), "Gateadresse", "Postnummer > Kategori");
+is( Geo::Postcodes::type_verbose_of      ($postcode), undef,          "Postnummer > Kategori");
 
 ## And now, error handling ######################################################
 

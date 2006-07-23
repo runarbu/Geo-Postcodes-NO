@@ -17,6 +17,15 @@ Geo::Postcodes::Update::update('NO', 'tilbud5.txt', \&parse_NO);
 
 sub parse_NO
 {
+  my %fix_type;
+
+  $fix_type{B} = 'STBX'; # The first field is the value used in 'tilbud5.txt'. #
+  $fix_type{F} = 'MU';   #   The second field is my international code.        #
+  $fix_type{G} = 'ST';
+  $fix_type{K} = 'IO';
+  $fix_type{P} = 'BX';
+  $fix_type{S} = 'SX';
+
   my %location;       # postcode       > location
   my %borough_number; # postcode       > borough number
   my %borough;        # borough number > borough
@@ -40,7 +49,8 @@ sub parse_NO
     $location      {$postcode}       = $location;
     $borough_number{$postcode}       = $borough_number;
     $borough       {$borough_number} = $borough;
-    $type          {$postcode}       = $type;
+#    $type          {$postcode}       = $type;
+    $type          {$postcode}       = $fix_type{$type};
   }
 
   foreach (sort keys %location)

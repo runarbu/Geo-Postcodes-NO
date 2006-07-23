@@ -2,7 +2,7 @@
 #                                                                             #
 #            Geo::Postcodes::NO Test Suite 2 - Object interface               #
 #            --------------------------------------------------               # 
-#               Arne Sommer - arne@cpan.org  - 13. July 2006                  #
+#               Arne Sommer - arne@cpan.org  - 19. July 2006                  #
 #                                                                             #
 ###############################################################################
 #                                                                             #
@@ -11,7 +11,7 @@
 #                                                                             #
 ###############################################################################
 
-use Test::More tests => 18;
+use Test::More tests => 22;
 
 BEGIN { use_ok('Geo::Postcodes::NO') };
 
@@ -20,24 +20,28 @@ BEGIN { use_ok('Geo::Postcodes::NO') };
 my $P = Geo::Postcodes::NO->new("1178"); # My postal code.
 isa_ok($P, "Geo::Postcodes::NO");
 
-is( $P->postcode(),    "1178",         "Postnummerobjekt > Postnummer");
-is( $P->location(),  "OSLO",         "Postnummerobjekt > Kommunenummer");
+is( $P->postcode(),       "1178",         "Postnummerobjekt > Postnummer");
+is( $P->location(),       "OSLO",         "Postnummerobjekt > Kommunenummer");
 is( $P->borough_number(), "0301",         "Postnummerobjekt > Kommunenummer");
-is( $P->borough(),   "OSLO",         "Postnummerobjekt > Kommune");
-is( $P->county(),     "OSLO",         "Postnummerobjekt > Fylke");
-is( $P->type(),  "Gateadresser", "Postnummer > Kategori");
+is( $P->borough(),        "OSLO",         "Postnummerobjekt > Kommune");
+is( $P->county(),         "OSLO",         "Postnummerobjekt > Fylke");
+is( $P->type(),           "ST",           "Postnummer > Kategori");
+is( $P->type_verbose(),   "Gateadresse",  "Postnummer > Kategori");
+is( $P->Geo::Postcodes::type_verbose(),   "Street address", "Postnummer > Kategori");
 
 ## Try another one, where the names differ. #####################################
 
 my $P2 = Geo::Postcodes::NO->new("2542"); # Another one.
 isa_ok($P2, "Geo::Postcodes::NO");
 
-is( $P2->postcode(),    "2542",         "Postnummerobjekt > Postnummer");
-is( $P2->location(),  "VINGELEN",     "Postnummerobjekt > Kommunenummer");
+is( $P2->postcode(),       "2542",         "Postnummerobjekt > Postnummer");
+is( $P2->location(),       "VINGELEN",     "Postnummerobjekt > Kommunenummer");
 is( $P2->borough_number(), "0436",         "Postnummerobjekt > Kommunenummer");
-is( $P2->borough(),   "TOLGA",        "Postnummerobjekt > Kommune");
-is( $P2->county(),     "HEDMARK",      "Postnummerobjekt > Fylke");
-is( $P2->type(),  "Gateadresser", "Postnummer > Kategori");
+is( $P2->borough(),        "TOLGA",        "Postnummerobjekt > Kommune");
+is( $P2->county(),         "HEDMARK",      "Postnummerobjekt > Fylke");
+is( $P2->type(),           "ST",           "Postnummer > Kategori");
+is( $P2->type_verbose(),   "Gateadresse", "Postnummer > Kategori");
+is( $P2->Geo::Postcodes::type_verbose(),   "Street address", "Postnummer > Kategori");
 
 ## And now, error handling ######################################################
 

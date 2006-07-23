@@ -2,7 +2,7 @@
 #                                                                             #
 #           Geo::Postcodes::NO Test Suite 4 - Available methods               #
 #           ---------------------------------------------------               #
-#               Arne Sommer - arne@cpan.org  - 18. July 2006                  #
+#               Arne Sommer - arne@cpan.org  - 23. July 2006                  #
 #                                                                             #
 ###############################################################################
 #                                                                             #
@@ -11,14 +11,14 @@
 #                                                                             #
 ###############################################################################
 
-use Test::More tests => 21;
+use Test::More tests => 22;
 
 BEGIN { use_ok('Geo::Postcodes::NO') };
 
 ###############################################################################
 
 my @methods  = qw(postcode location borough borough_number county type
-                  selection);
+                  type_verbose);
 
 my @methods1 = Geo::Postcodes::NO::methods();
 my @methods2 = Geo::Postcodes::NO->methods();
@@ -37,3 +37,5 @@ foreach (qw (just kidding))
   ok (! Geo::Postcodes::NO::is_method($_), "Geo::Postcodes::NO::is_method()");
   ok (! Geo::Postcodes::NO->is_method($_), "Geo::Postcodes::NO->is_method()");
 }
+
+is (Geo::Postcodes::NO::selection("kidding", "1299"), undef);

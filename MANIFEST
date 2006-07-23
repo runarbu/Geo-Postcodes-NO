@@ -6,6 +6,8 @@ NO.pm
 README
 bin/README
 bin/update
+eg/basic_no
+eg/selection_no
 t/1_procedures.t
 t/2_objects.t
 t/3_selection.t
