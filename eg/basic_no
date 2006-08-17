@@ -2,7 +2,7 @@
 
 use strict;
 
-use Geo::Postcodes::NO 0.03;
+use Geo::Postcodes::NO 0.10;
 
 ################################################################################
 #                                                                              #
@@ -24,10 +24,10 @@ foreach my $postcode (@ARGV)
   {
     my $P = Geo::Postcodes::NO->new($postcode);
 
-    foreach my $method (Geo::Postcodes::NO::methods())
+    foreach my $method (Geo::Postcodes::NO::get_methods())
       # Iterate over the methods supported by a norwegian postcode object.
     {
-      printf("%-10s\t%s\n", ucfirst($method), $P->$method()),
+      printf("%-10s\t%s\n", ucfirst($method), $P->$method() || ""),
         # Print the method name, and the result of the method call.
     }
 

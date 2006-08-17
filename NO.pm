@@ -1,14 +1,14 @@
 package Geo::Postcodes::NO;
 
 ## require Exporter;
-use Geo::Postcodes 0.03;
+use Geo::Postcodes 0.10;
 use base qw(Geo::Postcodes);
 ## use base qw(Geo::Postcodes Exporter);
 
 use strict;
 use warnings;
 
-our $VERSION = '0.03';
+our $VERSION = '0.10';
 our @EXPORT_OK = qw(legal valid);
 
 ## Which methods are available ##################################################
@@ -119,7 +119,7 @@ sub borough_number
   return $borough_number_of{$self};
 }
 
-sub methods
+sub get_methods
 {
   return @valid_methods;
 }

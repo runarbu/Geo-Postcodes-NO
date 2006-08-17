@@ -8,7 +8,9 @@ bin/README
 bin/update
 eg/basic_no
 eg/selection_no
+eg/multiselection_no
 t/1_procedures.t
 t/2_objects.t
 t/3_selection.t
-t/4_check.t
+t/4_methods.t
+t/5_selection_list.t

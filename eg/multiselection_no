@@ -1,0 +1,70 @@
+#! /usr/bin/perl -w
+
+use strict;
+
+use Geo::Postcodes::NO 0.10;
+
+################################################################################
+#                                                                              #
+#                             multiselection_no                                #
+#                             -----------------                                #
+#                 Arne Sommer - perl@bbop.org - 15. August 2006                #
+#                                                                              #
+################################################################################
+
+if (@ARGV < 2)
+{
+  unless ($ARGV[0] eq "-all") # As this one doesn't require additional parameters.
+  {
+    print "Usage: multiselection_no [-and|-or|-not|-all] <method> <string> [<method> <string>]+\n";
+    print "Legal methods: ", join(" ", Geo::Postcodes::NO::get_methods()), ".\n";
+    exit;
+  }
+}
+
+my $mode;
+
+if ($ARGV[0] =~ /^-(and|or|not|all)$/)
+{
+  $mode = $1; 
+  shift(@ARGV); # Get rid of the mode.
+}
+else
+{
+  print ">> No mode given, fallback to '-and'. (Legal modes: '-[and|or|not|all]'.) <<\n";
+  $mode = "and";
+}
+
+my $counter = 0;
+foreach my $method (@ARGV)
+{
+  if ($counter) { $counter = 0; next; }
+
+  $counter++;
+
+  unless (Geo::Postcodes::NO::is_method($method))
+  {
+    print "Unknown method '$method'.\n";
+    exit;
+  }
+}
+
+my @methods = Geo::Postcodes::NO::get_methods();
+  # Get all the methods supported by this class.
+
+foreach my $m (@methods)
+{
+  printf("%-14s", ucfirst($m)); # Print headers for each column
+}
+print "\n";
+
+foreach my $P (Geo::Postcodes::NO->selection($mode, @ARGV)) # Iterate over objects
+{
+  foreach my $m (@methods)     # Iterate over the methods for each object
+  {
+    printf("%-14s", $P->$m() || ""); # Print the column data, catching 'undef'
+  }
+  print "\n";
+}
+print "\n";
+

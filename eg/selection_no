@@ -2,20 +2,20 @@
 
 use strict;
 
-use Geo::Postcodes::NO 0.03;
+use Geo::Postcodes::NO 0.10;
 
 ################################################################################
 #                                                                              #
 #                                selection_no                                  #
 #                                ------------                                  #
-#                 Arne Sommer - perl@bbop.org - 21. July 2006                  #
+#                 Arne Sommer - perl@bbop.org - 30. July 2006                  #
 #                                                                              #
 ################################################################################
 
 unless (@ARGV == 2)
 {
   print "Usage: selectiopn_no <method> <string>\n";
-  print "Legal methods: ", join(" ", Geo::Postcodes::NO::methods()), ".\n";
+  print "Legal methods: ", join(" ", Geo::Postcodes::NO::get_methods()), ".\n";
   exit;
 }
 
@@ -24,7 +24,7 @@ my $string = shift(@ARGV);
 
 if (Geo::Postcodes::NO::is_method($method)) # Legal method
 {
-  my @methods = Geo::Postcodes::NO::methods();
+  my @methods = Geo::Postcodes::NO::get_methods();
     # Get all the methods supported by this module.
 
   foreach my $m (@methods)

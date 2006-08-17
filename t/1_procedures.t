@@ -2,7 +2,7 @@
 #                                                                             #
 #          Geo::Postcodes::NO Test Suite 1 - Procedural interface             #
 #          ------------------------------------------------------             # 
-#               Arne Sommer - arne@cpan.org  - 19. July 2006                  #
+#               Arne Sommer - perl@bbop.org  - 19. July 2006                  #
 #                                                                             #
 ###############################################################################
 #                                                                             #

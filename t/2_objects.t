@@ -2,12 +2,12 @@
 #                                                                             #
 #            Geo::Postcodes::NO Test Suite 2 - Object interface               #
 #            --------------------------------------------------               # 
-#               Arne Sommer - arne@cpan.org  - 19. July 2006                  #
+#               Arne Sommer - perl@bbop.org  - 19. July 2006                  #
 #                                                                             #
 ###############################################################################
 #                                                                             #
 # Before `make install' is performed this script should be runnable with      #
-# `make test'. After `make install' it should work as `perl 1_procedures.t'.  #
+# `make test'. After `make install' it should work as `perl 1_objects.t'.     #
 #                                                                             #
 ###############################################################################
 

@@ -2,7 +2,7 @@
 #                                                                             #
 #        Geo::Postcodes::NO Test Suite 3 - The 'selection' procedure          #
 #        -----------------------------------------------------------          #
-#               Arne Sommer - arne@cpan.org  - 19. July 2006                  #
+#               Arne Sommer - perl@bbop.org  - 16. August 2006                #
 #                                                                             #
 ###############################################################################
 #                                                                             #
@@ -11,7 +11,7 @@
 #                                                                             #
 ###############################################################################
 
-use Test::More tests => 9;
+use Test::More tests => 17;
 
 BEGIN { use_ok('Geo::Postcodes::NO') };
 
@@ -66,14 +66,68 @@ is_deeply(\@typ2, \@typ,                "type         => 'Serviceboks'");
 
 my @oo2;
 
-foreach  (Geo::Postcodes::NO::selection(county     => 'SVALBARD'))
+foreach  (Geo::Postcodes::NO::selection(county => 'SVALBARD'))
 {
   push @oo2, Geo::Postcodes::NO->new($_);
 }
 
-my @oo1 = Geo::Postcodes::NO->selection(county     => 'SVALBARD');
+my @oo1 = Geo::Postcodes::NO->selection(county => 'SVALBARD');
   ## As above, but as full Geo::Postcodes::NO objects .
 
 is_deeply(\@oo1, \@oo2, "List of objects");
+
+###############################################################################
+#                                                                             #
+# And now, more advanced examples                                             #
+#                                                                             #
+###############################################################################
+
+my @and  = qw(4200 8200);
+my @and1 = Geo::Postcodes::NO::selection('and', postcode => '[48]200');
+my @and2 = Geo::Postcodes::NO::selection('and', postcode => '.200',
+                                                location => '%u%');
+
+is_deeply(\@and1, \@and, "selection('and', ...");
+is_deeply(\@and2, \@and, "selection('and', ...");
+
+###############################################################################
+
+my @double  = qw(3650 3666 5457 7105 7119);
+my @double1 = Geo::Postcodes::NO::selection('and', location => '%bygd',
+                                                   borough  => '%i(.)\1%');
+  # Postcodes where the locatation ends with 'bygd', and where the borough 
+  # has an 'i' in the name, followeb by two identical characters.
+
+is_deeply(\@double, \@double, "selection('and')");
+
+###############################################################################
+
+is(Geo::Postcodes::NO::selection('and', postcode => '4%',
+                                        postcode => '9%'), undef, 'undef');
+
+###############################################################################
+
+my @or  = qw(3320 3321 5281 5291 6139 6143);
+my @or1 = Geo::Postcodes::NO::selection('or', location => 'f%bygd', 
+                                              location => '%fossen');
+
+is_deeply(\@or1, \@or, "selection('or', ...");
+
+###############################################################################
+
+my @not  = qw(6781 6782 6783);
+my @not1 = Geo::Postcodes::NO::selection('not', location => '%[aeiou∆ÿ≈]%');
+my @not2 = Geo::Postcodes::NO::selection('not', location => '%[aeiou]%',
+                                                location => '%[∆ÿ≈]%');;
+
+is_deeply(\@not1, \@not, "selection('not', ...");
+is_deeply(\@not2, \@not, "selection('not', ...");
+
+###############################################################################
+
+my @all  = sort(Geo::Postcodes::NO::get_postcodes());
+my @all1 = Geo::Postcodes::NO::selection('all');
+
+is_deeply(\@all1, \@all, "selection('all')");
 
 ###############################################################################

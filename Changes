@@ -1,5 +1,29 @@
 Revision history for Perl extension Geo::Postcodes::NO
 ------------------------------------------------------
+2006-08-17 15:00 Arne Sommer
+ * Released version 0.10.
+
+2006-08-15 18:00 Arne Sommer
+ * Added tests for selection's 'and', 'or', not' and 'all'
+   modes.
+ * Fixed an error in 'eg/multiselection_no' that prevented
+   the 'all' modifier from working.
+
+2006-08-05 21:00 Arne Sommer
+ * Added support for the 'not' and 'all' modifiers in the
+    sample program 'eg/multiselection_no'.
+
+2006-07-30 16:00 Arne Sommer
+ * Added the sample program 'eg/multiselection_no', using
+   the new selection syntax.
+
+2006-07-30 13:00 Arne Sommer
+ * Rewritten the tests and sample code to use the new
+   'and/or' parameter in the core selection procedure/method.
+
+2006-07-30 09:00 Arne Sommer
+ * Renamed the 'methods' procedure/method to 'get_methods'.
+
 2006-07-23 14:00 Arne Sommer
  * Released version 0.03.
 
