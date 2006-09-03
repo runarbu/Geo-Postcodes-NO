@@ -2,7 +2,7 @@
 #                                                                             #
 #        Geo::Postcodes::NO Test Suite 3 - The 'selection' procedure          #
 #        -----------------------------------------------------------          #
-#               Arne Sommer - perl@bbop.org  - 16. August 2006                #
+#               Arne Sommer - perl@bbop.org  - 31. August 2006                #
 #                                                                             #
 ###############################################################################
 #                                                                             #
@@ -98,7 +98,7 @@ my @double1 = Geo::Postcodes::NO::selection('and', location => '%bygd',
   # Postcodes where the locatation ends with 'bygd', and where the borough 
   # has an 'i' in the name, followeb by two identical characters.
 
-is_deeply(\@double, \@double, "selection('and')");
+is_deeply(\@double1, \@double, "selection('and')");
 
 ###############################################################################
 
@@ -116,12 +116,12 @@ is_deeply(\@or1, \@or, "selection('or', ...");
 ###############################################################################
 
 my @not  = qw(6781 6782 6783);
-my @not1 = Geo::Postcodes::NO::selection('not', location => '%[aeiou∆ÿ≈]%');
-my @not2 = Geo::Postcodes::NO::selection('not', location => '%[aeiou]%',
-                                                location => '%[∆ÿ≈]%');;
+my @not1 = Geo::Postcodes::NO::selection('not',     location => '%[aeiou∆ÿ≈]%');
+my @not2 = Geo::Postcodes::NO::selection('and not', location => '%[aeiou]%',
+                                                    location => '%[∆ÿ≈]%');
 
-is_deeply(\@not1, \@not, "selection('not', ...");
-is_deeply(\@not2, \@not, "selection('not', ...");
+is_deeply(\@not1, \@not, "selection('and not', ...");
+is_deeply(\@not2, \@not, "selection('and not', ...");
 
 ###############################################################################
 

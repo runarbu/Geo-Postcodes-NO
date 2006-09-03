@@ -2,51 +2,39 @@
 
 use strict;
 
-use Geo::Postcodes::NO 0.10;
+use Geo::Postcodes::NO 0.20;
 
 ################################################################################
 #                                                                              #
 #                             multiselection_no                                #
 #                             -----------------                                #
-#                 Arne Sommer - perl@bbop.org - 15. August 2006                #
+#               Arne Sommer - perl@bbop.org - 03. September 2006               #
 #                                                                              #
 ################################################################################
 
-if (@ARGV < 2)
+my ($status, @lines) = Geo::Postcodes::NO::verify_selectionlist(@ARGV);
+  # @lines is diagnostic output if the check failed.
+  # @lines is a fixed argument list if the check succeeded.
+  #  e.g. ('and', 'not') -> ('and not').
+
+if ($status == 0)
 {
-  unless ($ARGV[0] eq "-all") # As this one doesn't require additional parameters.
+  print "Usage: \n",
+        " * multiselection_no [all|none]\n",
+        " * multiselection_no [" , 
+        join("|", Geo::Postcodes::get_initial_selectionmodes()), "]? <method> <string> [[",
+        join("|", Geo::Postcodes::get_selectionmodes()), "]? [<method> <string>]]*\n\n";
+
+  print "Legal methods: ", join(", ", Geo::Postcodes::NO::get_methods()), "\n\n";
+
+  print "Diagnostic output:\n";
+
+  foreach (@lines)
   {
-    print "Usage: multiselection_no [-and|-or|-not|-all] <method> <string> [<method> <string>]+\n";
-    print "Legal methods: ", join(" ", Geo::Postcodes::NO::get_methods()), ".\n";
-    exit;
+    print " * $_\n";
   }
-}
 
-my $mode;
-
-if ($ARGV[0] =~ /^-(and|or|not|all)$/)
-{
-  $mode = $1; 
-  shift(@ARGV); # Get rid of the mode.
-}
-else
-{
-  print ">> No mode given, fallback to '-and'. (Legal modes: '-[and|or|not|all]'.) <<\n";
-  $mode = "and";
-}
-
-my $counter = 0;
-foreach my $method (@ARGV)
-{
-  if ($counter) { $counter = 0; next; }
-
-  $counter++;
-
-  unless (Geo::Postcodes::NO::is_method($method))
-  {
-    print "Unknown method '$method'.\n";
-    exit;
-  }
+  exit;
 }
 
 my @methods = Geo::Postcodes::NO::get_methods();
@@ -58,7 +46,7 @@ foreach my $m (@methods)
 }
 print "\n";
 
-foreach my $P (Geo::Postcodes::NO->selection($mode, @ARGV)) # Iterate over objects
+foreach my $P (Geo::Postcodes::NO->selection(@lines)) # Iterate over objects
 {
   foreach my $m (@methods)     # Iterate over the methods for each object
   {

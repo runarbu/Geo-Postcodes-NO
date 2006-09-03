@@ -12,39 +12,47 @@
 #                                                                             #
 ###############################################################################
 #                                                                             #
-# Note that this test file requires 'List::MoreUtils' to work.                #
+# Note that the tests in this file file requires 'List::MoreUtils' to work.   #
+# Thet will be skipped otherwise.                                             #
 #                                                                             #
 ###############################################################################
 
-use Test::More tests => 4;
+use Test::More tests => 3;
 
 BEGIN { use_ok('Geo::Postcodes::NO') };
-BEGIN { use_ok('List::MoreUtils') };
 
 ###############################################################################
 
-my @or = Geo::Postcodes::NO::selection('or', postcode => '4%',
-                                             postcode => '9%');
-  # All postcodes starting with '4' or '9'.
+SKIP: 
+{
+  eval { require List::MoreUtils };
+  skip "List::MoreUtils not installed", 2 if $@;
 
-my @or1 = List::MoreUtils::uniq(sort(
+  #############################################################################
+
+  my @or = Geo::Postcodes::NO::selection('or', postcode => '4%',
+                                               postcode => '9%');
+    # All postcodes starting with '4' or '9'.
+
+  my @or1 = List::MoreUtils::uniq(sort(
            Geo::Postcodes::NO::selection(postcode => '4%'), 
            Geo::Postcodes::NO::selection(postcode => '9%')));
-             # Merge the two lists, and remove duplicates.
+             # Merge the two lists, sort the result, and remove duplicates.
 
-is_deeply(\@or1, \@or, "Combined selection-or");
+  is_deeply(\@or1, \@or, "Combined selection-or");
 
-###############################################################################
+  #############################################################################
 
-my @one = Geo::Postcodes::NO::selection('or', postcode => '1%',
-                                              postcode => '%9');
-  # All postcodes starting with '1' or ending with '9'.
+  my @one = Geo::Postcodes::NO::selection('or', postcode => '1%',
+                                                postcode => '%9');
+    # All postcodes starting with '1' or ending with '9'.
 
-my @one1 = List::MoreUtils::uniq(sort(
-           Geo::Postcodes::NO::selection(postcode => '1%'), 
-           Geo::Postcodes::NO::selection(postcode => '%9')));
-             # Merge the two lists, and remove duplicates.
+  my @one1 = List::MoreUtils::uniq(sort(
+             Geo::Postcodes::NO::selection(postcode => '1%'), 
+             Geo::Postcodes::NO::selection(postcode => '%9')));
+               # Merge the two lists, and remove duplicates.
 
-is_deeply(\@one1, \@one, "Combined selection-or");
+  is_deeply(\@one1, \@one, "Combined selection-or");
+}
 
 ###############################################################################

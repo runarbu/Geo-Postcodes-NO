@@ -1,22 +1,22 @@
 package Geo::Postcodes::NO;
 
 ## require Exporter;
-use Geo::Postcodes 0.10;
+use Geo::Postcodes 0.20;
 use base qw(Geo::Postcodes);
 ## use base qw(Geo::Postcodes Exporter);
 
 use strict;
 use warnings;
 
-our $VERSION = '0.10';
+our $VERSION = '0.20';
 our @EXPORT_OK = qw(legal valid);
 
 ## Which methods are available ##################################################
 
-my @valid_methods = qw(postcode location borough borough_number county type type_verbose); ##  selection);
-  # Used by the 'methods' method.
+my @valid_methods = qw(postcode location borough borough_number county type type_verbose);
+  # Used by the 'get_methods' procedure.
 
-my %valid_methods;
+my %valid_methods; # Used by the 'is_method' procedure/method.
 
 foreach (@valid_methods)
 {
@@ -73,7 +73,7 @@ sub new
   my $class    = shift;
   my $postcode = shift;
 
-  return undef unless valid($postcode);
+  return unless valid($postcode);
 
   my $self = bless \(my $dummy), $class;
 
@@ -82,15 +82,8 @@ sub new
   $Geo::Postcodes::borough_of   {$self} = borough_of ($postcode);
   $Geo::Postcodes::county_of    {$self} = county_of  ($postcode);
   $Geo::Postcodes::type_of      {$self} = type_of    ($postcode);
- #$Geo::Postcodes::owner_of     {$self} = owner_of   ($postcode);
- #$Geo::Postcodes::address_of   {$self} = address_of ($postcode);
-
   $borough_number_of            {$self} = borough_number_of($postcode);
- #$pab_of                       {$self} = postadressebok_of($postcode);
-
-  # my $super = $class->can("SUPER::new");
-  # goto &$super($class, $postcode, $self) if $super;
-  # These two lines should make the 5 Geo-lines superfluous.
+    # Local addition
 
   return $self;
 }
@@ -103,14 +96,7 @@ sub DESTROY {
   delete $Geo::Postcodes::borough_of   {$dead_body};
   delete $Geo::Postcodes::county_of    {$dead_body};
   delete $Geo::Postcodes::type_of      {$dead_body};
- #delete $Geo::Postcodes::owner_of     {$dead_body};
- #delete $Geo::Postcodes::address_of   {$dead_body};
-
   delete $borough_number_of            {$dead_body};
- #delete $pab_of                       {$dead_body};
-
-  ## my $super = $dead_body->can("SUPER::DESTROY");
-  ## goto &$super if $super;
 }
 
 sub borough_number
@@ -186,10 +172,10 @@ sub borough_number_of
 
 sub kommunenr2kommune
 {
-  my $kommunenr = shift;
-  return unless $kommunenr;
+  my $borough_number = shift;
+  return unless $borough_number;
 
-  exists $borough{$kommunenr} ? $borough{$kommunenr} : undef;
+  exists $borough{$borough_number} ? $borough{$borough_number} : undef;
 }
 
 sub borough_of
@@ -197,10 +183,10 @@ sub borough_of
   my $postcode  = shift;
   return unless $postcode;
 
-  my $kommunenr = borough_number_of($postcode);
-  return unless $kommunenr; # Ulovlig kommunenummer.
+  my $borough_number = borough_number_of($postcode);
+  return unless $borough_number; # Illegal borough number
 
-  return kommunenr2kommune($kommunenr);
+  return kommunenr2kommune($borough_number);
 }
 
 sub county_of
@@ -208,22 +194,22 @@ sub county_of
   my $postcode  = shift;
   return unless $postcode;
 
-  my $kommunenr = borough_number_of($postcode);
-  return unless $kommunenr; # Ulovlig kommunenummer.
+  my $borough_number = borough_number_of($postcode);
+  return unless $borough_number; # Illegal borough number
 
-  return kommunenr2fylke($kommunenr);
+  return kommunenr2fylke($borough_number);
 }
 
 sub kommunenr2fylke
 {
-  my $kommunenr = shift;
-  return unless $kommunenr;
-  return unless $borough{$kommunenr};
+  my $borough_number = shift;
+  return unless $borough_number;
+  return unless $borough{$borough_number};
 
-  $kommunenr =~ /(\d\d)/; # De to første sifrene.
-  my $fylkenr = $1;
+  $borough_number =~ /(\d\d)/; # The county is defined by the first two digits
+  my $county_number = $1;
 
-  $counties[$fylkenr] ? $counties[$fylkenr] : undef;
+  $counties[$county_number] ? $counties[$county_number] : undef;
 }
 
 sub type_of
@@ -261,6 +247,11 @@ sub get_postcodes
 
 ## Returns a list of postcodes if called as a procedure; Geo::Postcodes::NO::selection(xx => 'yy')
 ## Returns a list of objects if called as a method;      Geo::Postcodes::NO->selection(xx => 'yy')
+
+sub verify_selectionlist
+{
+  return Geo::Postcodes::_verify_selectionlist("Geo::Postcodes::NO", @_);
+}
 
 sub selection
 {
@@ -5289,7 +5280,7 @@ Geo::Postcodes::NO - Norwegian postcodes with associated information
 This module can be used object oriented, or as procedures.
 Take your pick.
 
-=head2 OBJECTS
+=head2 AS OBJECTS
 
   use Geo::Postcodes::NO;
 
@@ -5311,7 +5302,7 @@ Take your pick.
 
 The test for a valid postcode can also be done on the object itself, as
 it will be I<undef> when passed an illegal postcode (and thus no object
- at all.)
+at all.)
 
   my $P = Geo::Postcodes::NO->new($postcode);
 
@@ -5321,15 +5312,15 @@ A more compact solution:
 
   if ($P = Geo::Postcodes::NO->new($postcode))
   {
-    foreach my $method (Geo::Postcodes::NOmethods())
+    foreach my $method (Geo::Postcodes::NO::get_methods())
     {
       printf("%-20s %s\n", ucfirst($method), $P->$method())
     }
   }
 
-This will not show the neglish description of the type.
+This will B<not> show the english description of the type.
 
-=head2 PROCEDURES
+=head2 AS PROCEDURES
 
   use Geo::Postcodes::NO;
 
@@ -5364,15 +5355,13 @@ The library can also tell you in which borough by name or number and county
 by name the postcode is located. The borough number can be handy, as it is
 used when reporting wages and tax to the Norwegian Tax Administration 
 
+The module supports the following methods: 'postcode', 'location', 'borough_number',
+'borough', 'county', 'type', and 'type_verbose'. This list can also be obtained
+with the call C<Geo::Postcodes::NO::get_methods()>.
+
 =head2 EXPORT
 
 None.
-
-=head2 METHODS
-
-The module supports the following methods: 'postcode', 'location', 'borough_number',
-'borough', 'county', 'type', and -type_verbose'. This list can also be obtained
-with the call C<Geo::Postcodes::NO::methods()>.
 
 =head1 DEPENDENCIES
 
@@ -5389,16 +5378,17 @@ These functions can be used as methods or procedures.
 
 Does the specified method exist.
 
-=head2 methods
+=head2 get_methods
 
-  my @methods = Geo::postcodes::NO::methods();
-  my @methods = $postcode_object->methods();
+  my @methods = Geo::postcodes::NO::get_methods();
+  my @methods = $postcode_object->get_methods();
 
 A list of legal methods.
 
 =head2 selection
 
-See the I<Geo::Postcodes> manual for a description of this powerfull feature. 
+See the I<Geo::Postcodes> manual for a full description of this function, where it is
+possible to select more than one postcode at a time, based on arbitrary complex rules.
 
 =head1 PROCEDURES
 
@@ -5407,56 +5397,56 @@ argument. They are used internally by the object constructor (new).
 
 =head2 legal
 
-  my $boolean = Geo::Postcodes::NO::legal($number);
+  my $boolean = Geo::Postcodes::NO::legal($postcode);
 
 Do we have a legal postcode; a code that follows the syntax rules?
 
 =head2 valid
 
-  my $boolean = Geo::Postcodes::NO::valid($number);
+  my $boolean = Geo::Postcodes::NO::valid($postcode);
 
 Do we have a valid postcode; a code in actual use?
 
 =head2 location_of
 
-  my $poststed = Geo::Postcodes::NO::location_of($number);
+  my $loaction = Geo::Postcodes::NO::location_of($postcode);
 
 The postal location associated with the specified postcode.
 
 =head2 borough_number_of
 
-  my $kommunenr = Geo::Postcodes::NO::borough_number_of($number);
+  my $boroug_number = Geo::Postcodes::NO::borough_number_of($postcode);
 
 The number of the borough (kommune) where the postcode is located.
 
 =head2 kommunenr2kommune
 
-C<my $kommune = Geo::Postcodes::NO::kommunenr2kommune($number);>
+ my $borough = Geo::Postcodes::NO::kommunenr2kommune($borough);
 
 The name of the borough (kommune) with the specified borough number.
 
 =head2 borough_of
 
- my $kommune = Geo::Postcodes::NO::borough_of($number);
+ my $borough = Geo::Postcodes::NO::borough_of($postcode);
 
 The name of the borough (kommune) where the postcode is located.
 
 =head2 county_of
 
- my $fylke = Geo::Postcodes::NO::county_of($number);
+ my $county = Geo::Postcodes::NO::county_of($county_number);
 
 The name of the county (fylke) where the postcode is located.
 
 =head2 kommunenr2fylke
 
- my $fylke = Geo::Postcodes::NO::kommunenr2fylke($number);
+ my $county = Geo::Postcodes::NO::kommunenr2fylke($borough_number);
 
 The name of the county (fylke) where the specified borough number
 (kommune nummer) is located.
 
 =head2 type_of
 
-  my $type = Geo::Postcodes::NO::type_of($number);
+  my $type = Geo::Postcodes::NO::type_of($postcode);
 
 =head2 type_verbose_of
 
@@ -5466,7 +5456,7 @@ The name of the county (fylke) where the specified borough number
 A norwegian text describing the type. Use the base class for the english
 description.
 
-See the L<'TYPE'> section for a description of the types.
+See the L<TYPE> section for a description of the types.
 
 =head2 type2verbose
 
@@ -5479,7 +5469,7 @@ Get the description of the specified type.
 
 =head2 new
 
-C<my $P = Geo::Postcodes::NO-E<gt>new($number);>
+C<my $P = Geo::Postcodes::NO-E<gt>new($postcode);>
 
 Create a new postcode object. Internally this will call the C<xxx_of> procedures
 for the fields supported by this class.
@@ -5534,7 +5524,7 @@ See the description of the procedure I<type_verbose_of> above.
 
 Use this to get the description.
 
-See the L<'TYPE'> section for a description of the types.
+See the L<TYPE> section for a description of the types.
 
 =head1 TYPE
 
@@ -5566,7 +5556,7 @@ Både gateadresser og postbokser (Either a Street address or a Post Office box)
 
 Flere bruksområder (felles) (Multiple usage)
 
-=cut
+=back
 
 Se L<Geo::Postcodes> for furter descriptions.
 
@@ -5607,21 +5597,17 @@ characters.
 Note that all names are given in UPPER CASE. This is courtesy of the norwegian
 postal service.
 
-
-
 =head1 SEE ALSO
 
 The latest version of this library should always be available on CPAN, but see
-also the library home page; L<http://bbop.org/perl/GeoPostcodes> for additional
+also the library home page; F<http://bbop.org/perl/GeoPostcodes> for additional
 information and sample usage.
 
 =head1 AUTHOR
 
 Arne Sommer, E<lt>perl@bbop.orgE<gt>
 
-=head1 COPYRIGHT AND LICENSE
-
-Copyright (C) 2006 by Arne Sommer
+=head1 LICENSE
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself. 
