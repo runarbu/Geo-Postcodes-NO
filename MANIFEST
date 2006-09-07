@@ -14,3 +14,7 @@ t/2_objects.t
 t/3_selection.t
 t/4_methods.t
 t/5_selection_list.t
+t/6_validselection.t
+t/7_pod.t
+t/7_pod_coverage.t
+META.yml                                 Module meta-data (added by MakeMaker)

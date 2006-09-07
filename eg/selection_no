@@ -2,19 +2,19 @@
 
 use strict;
 
-use Geo::Postcodes::NO 0.10;
+use Geo::Postcodes::NO 0.21;
 
 ################################################################################
 #                                                                              #
 #                                selection_no                                  #
 #                                ------------                                  #
-#                 Arne Sommer - perl@bbop.org - 30. July 2006                  #
+#               Arne Sommer - perl@bbop.org - 04. September 2006               #
 #                                                                              #
 ################################################################################
 
 unless (@ARGV == 2)
 {
-  print "Usage: selectiopn_no <method> <string>\n";
+  print "Usage: selection_no <method> <string>\n";
   print "Legal methods: ", join(" ", Geo::Postcodes::NO::get_methods()), ".\n";
   exit;
 }
@@ -22,9 +22,11 @@ unless (@ARGV == 2)
 my $method = shift(@ARGV);
 my $string = shift(@ARGV);
 
+my @methods;
+
 if (Geo::Postcodes::NO::is_method($method)) # Legal method
 {
-  my @methods = Geo::Postcodes::NO::get_methods();
+  @methods = Geo::Postcodes::NO::get_methods();
     # Get all the methods supported by this module.
 
   foreach my $m (@methods)
@@ -33,17 +35,22 @@ if (Geo::Postcodes::NO::is_method($method)) # Legal method
   }
   print "\n";
 
-  foreach my $P (Geo::Postcodes::NO->selection($method, $string)) # Iterate over objects
-  {
-    foreach my $m (@methods)     # Iterate over the methods for each object
-    {
-      printf("%-14s", $P->$m() || ""); # Print the column data, or nothing if empty
-    }
-    print "\n";
-  }
+  Geo::Postcodes::NO->selection_loop(\&print_it, $method, $string);
+    # Call each postcode object on to the 'loop' procedure.
+
   print "\n";
 }
 else # illegal method.
 {
   print "Not a legal method '$method'.\n";
+}
+
+sub print_it
+{
+  my $object = shift;
+  foreach my $m (@methods)                # Iterate over the methods for each object
+  {
+    printf("%-14s", $object->$m() || ""); # Print the column data, or nothing if empty
+  }
+  print "\n";
 }

@@ -1,5 +1,25 @@
 Revision history for Perl extension Geo::Postcodes::NO
 ------------------------------------------------------
+2006-09-07 19:00 Arne Sommer
+ * Added the test file 't/6_validselection.t' testing the
+   'verify_selectionlist' procedure.
+
+2006-09-07 16:00 Arne Sommer
+ * Added the test files 't/7_pod.t' and 't/7_pod_coverage.t' to
+   check the documentation for errors and completeness, and
+   fixed the reported shortcomings. 
+
+2006-09-07 13:00 Arne Sommer
+ * Translated the remaining norwegian descriptions in some of the test-files
+   to english.
+ * Removed the line 'use 5.008' from 'Makefile.PL', as there was no
+   reason for this restriction.
+
+2006-09-04 18:00 Arne Sommer
+ * Added the procedure wrapper 'selection_loop' around the core
+   '_selection_loop'. 
+ * Rewritten 'eg/selection_no' to use 'selection_loop'.
+
 2006-09-03 23:30 Arne Sommer
  * Released version 0.20.
 
