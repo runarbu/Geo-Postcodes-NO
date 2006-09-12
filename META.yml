@@ -1,11 +1,11 @@
 # http://module-build.sourceforge.net/META-spec.html
 #XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
 name:         Geo-Postcodes-NO
-version:      0.21
+version:      0.30
 version_from: NO.pm
 installdirs:  site
 requires:
-    Geo::Postcodes:                0.21
+    Geo::Postcodes:                0.3
 
 distribution_type: module
 generated_by: ExtUtils::MakeMaker version 6.30

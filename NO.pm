@@ -1,26 +1,23 @@
 package Geo::Postcodes::NO;
 
-## require Exporter;
-use Geo::Postcodes 0.21;
+use Geo::Postcodes 0.30;
 use base qw(Geo::Postcodes);
-## use base qw(Geo::Postcodes Exporter);
 
 use strict;
 use warnings;
 
-our $VERSION = '0.21';
-our @EXPORT_OK = qw(legal valid);
+our $VERSION = '0.30';
 
-## Which methods are available ##################################################
+## Which fields are available ##################################################
 
-my @valid_methods = qw(postcode location borough borough_number county type type_verbose);
-  # Used by the 'get_methods' procedure.
+my @valid_fields = qw(postcode location borough borough_number county type type_verbose);
+  # Used by the 'get_fields' procedure.
 
-my %valid_methods; # Used by the 'is_method' procedure/method.
+my %valid_fields; # Used by the 'is_field' procedure/method.
 
-foreach (@valid_methods)
+foreach (@valid_fields)
 {
-  $valid_methods{$_} = 1;
+  $valid_fields{$_} = 1;
 }
 
 ## Private Variables ############################################################
@@ -62,7 +59,6 @@ $typedesc{SX}   = "Serviceboks";
 $typedesc{IO}   = "Kunde med eget postnummer";
 $typedesc{STBX} = "Både gateadresse og postboks";
 $typedesc{MU}   = "Flere bruksområder (felles)";
-
 
 ## OO Methods ###################################################################
 
@@ -106,17 +102,17 @@ sub borough_number
   return $borough_number_of{$self};
 }
 
-sub get_methods
+sub get_fields
 {
-  return @valid_methods;
+  return @valid_fields;
 }
 
-sub is_method
+sub is_field
 {
-  my $method = shift;
-  $method    = shift if $method =~ /Geo::Postcodes/; # Called on an object.
+  my $field = shift;
+  $field    = shift if $field =~ /Geo::Postcodes/; # Called on an object.
 
-  return 1 if $valid_methods{$method};
+  return 1 if $valid_fields{$field};
   return 0;
 }
 
@@ -171,7 +167,7 @@ sub borough_number_of
   exists $borough_number{$postcode} ? $borough_number{$postcode} : undef;
 }
 
-sub kommunenr2kommune
+sub borough_number2borough
 {
   my $borough_number = shift;
   return unless $borough_number;
@@ -187,7 +183,7 @@ sub borough_of
   my $borough_number = borough_number_of($postcode);
   return unless $borough_number; # Illegal borough number
 
-  return kommunenr2kommune($borough_number);
+  return borough_number2borough($borough_number);
 }
 
 sub county_of
@@ -198,10 +194,10 @@ sub county_of
   my $borough_number = borough_number_of($postcode);
   return unless $borough_number; # Illegal borough number
 
-  return kommunenr2fylke($borough_number);
+  return borough_number2county($borough_number);
 }
 
-sub kommunenr2fylke
+sub borough_number2county
 {
   my $borough_number = shift;
   return unless $borough_number;
@@ -5290,66 +5286,62 @@ Take your pick.
 
 =head2 AS OBJECTS
 
-  use Geo::Postcodes::NO;
+ use Geo::Postcodes::NO;
 
-  my $postcode = '1178'; # My postcode.
+ my $postcode = '1178'; # My postcode.
 
-  if (Geo::Postcodes::NO::valid($postcode)) # A valid postcode?
-  {
-    my $P = Geo::Postcodes::NO->new($postcode);
+ if (Geo::Postcodes::NO::valid($postcode)) # A valid postcode?
+ {
+   my $P = Geo::Postcodes::NO->new($postcode);
 
-    printf "Postcode         '%s'.\n", $P->postcode();
-    printf "Postal location: '%s'.\n", $P->location();
-    printf "Borough number:  '%s'.\n", $P->borough_number();
-    printf "Borough:         '%s'.\n", $P->borough();
-    printf "County:          '%s'.\n", $P->county();
-    printf "Postcode type:   '%s'.\n", $P->type(); 
-    printf "- in norwegian:  '%s'.\n", $P->type_verbose(); 
-    printf "- in english:    '%s'.\n", $P->Geo::Postcodes::type_verbose(); 
-  }
+   printf "Postcode         '%s'.\n", $P->postcode();
+   printf "Postal location: '%s'.\n", $P->location();
+   printf "Borough number:  '%s'.\n", $P->borough_number();
+   printf "Borough:         '%s'.\n", $P->borough();
+   printf "County:          '%s'.\n", $P->county();
+   printf "Postcode type:   '%s'.\n", $P->type(); 
+   printf "- in norwegian:  '%s'.\n", $P->type_verbose(); 
+   printf "- in english:    '%s'.\n", $P->Geo::Postcodes::type_verbose(); 
+ }
 
 The test for a valid postcode can also be done on the object itself, as
 it will be I<undef> when passed an illegal postcode (and thus no object
 at all.)
 
-  my $P = Geo::Postcodes::NO->new($postcode);
+ my $P = Geo::Postcodes::NO->new($postcode);
 
-  if ($P) { ... }
+ if ($P) { ... }
 
 A more compact solution:
 
-  if ($P = Geo::Postcodes::NO->new($postcode))
-  {
-    foreach my $method (Geo::Postcodes::NO::get_methods())
-    {
-      printf("%-20s %s\n", ucfirst($method), $P->$method())
-    }
-  }
+ if ($P = Geo::Postcodes::NO->new($postcode))
+ {
+   foreach my $field (Geo::Postcodes::NO::get_fields())
+   {
+     printf("%-20s %s\n", ucfirst($field), $P->$field())
+   }
+ }
 
 This will B<not> show the english description of the type.
 
 =head2 AS PROCEDURES
 
-  use Geo::Postcodes::NO;
+ use Geo::Postcodes::NO;
 
-  my $postcode = "1178";
+ my $postcode = "1178";
 
-  if (Geo::Postcodes::NO::valid($postcode))
-  {
-    printf "Postcode"        '%s'.\n", $postcode;
-    printf "Postal location: '%s'.\n", location_of($postcode);
-    printf "Borough number:  '%s'.\n", borough_number_of($postcode);
-    printf "Borough:         '%s'.\n", borough_of($postcode);
-    printf "County:          '%s'.\n", county_of($postcode);
-    printf "Postcode type:   '%s'.\n", type_of($postcode); 
-    printf "Postcode type:   '%s'.\n", type_of($postcode); 
-    printf "- in norwegian:  '%s'.\n", type_of_verbose($postcode); 
-    printf "- in english:    '%s'.\n", Geo::Postcodes::type_of_verbose($postcode); 
-  }
-
-=head2 SEE ALSO
-
-See also the sample programs in the C<eg/>-directory of the distribution.
+ if (Geo::Postcodes::NO::valid($postcode))
+ {
+   printf "Postcode"        '%s'.\n", $postcode;
+   printf "Postal location: '%s'.\n", location_of($postcode);
+   printf "Borough number:  '%s'.\n", borough_number_of($postcode);
+   printf "Borough:         '%s'.\n", borough_of($postcode);
+   printf "County:          '%s'.\n", county_of($postcode);
+   printf "Postcode type:   '%s'.\n", type_of($postcode); 
+   printf "Postcode type:   '%s'.\n", type_of($postcode); 
+   printf "- in norwegian:  '%s'.\n", type_of_verbose($postcode); 
+   printf "- in english:    '%s'.\n", Geo::Postcodes::type_of_verbose($postcode); 
+ }
 
 =head1 ABSTRACT
 
@@ -5367,9 +5359,9 @@ The library can also tell you in which borough by name or number and county
 by name the postcode is located. The borough number can be handy, as it is
 used when reporting wages and tax to the Norwegian Tax Administration 
 
-The module supports the following methods: 'postcode', 'location', 'borough_number',
+The module supports the following fields: 'postcode', 'location', 'borough_number',
 'borough', 'county', 'type', and 'type_verbose'. This list can also be obtained
-with the call C<Geo::Postcodes::NO::get_methods()>.
+with the call C<Geo::Postcodes::NO::get_fields()>.
 
 =head2 EXPORT
 
@@ -5383,24 +5375,30 @@ This module is a subclass of Geo::Postcodes, which must be installed first.
 
 These functions can be used as methods or procedures.
 
-=head2 is_method
+=head2 is_field
 
-  my $boolean = Geo::postcodes::NO::is_method($method);
-  my $boolean = $postcode_object->is_method($method);
+  my $boolean = Geo::postcodes::NO::is_field($field);
+  my $boolean = $postcode_object->is_field($field);
 
-Does the specified method exist.
+Does the specified field exist.
 
-=head2 get_methods
+=head2 get_fields
 
-  my @methods = Geo::postcodes::NO::get_methods();
-  my @methods = $postcode_object->get_methods();
+  my @fields = Geo::postcodes::NO::get_fields();
+  my @fields = $postcode_object->get_fields();
 
-A list of legal methods.
+A list of legal fields.
 
 =head2 selection
 
-See the I<Geo::Postcodes> manual for a full description of this function, where it is
-possible to select more than one postcode at a time, based on arbitrary complex rules.
+This procedure/method makes it possible to select more than one postcode at a time,
+based on arbitrary complex rules.
+
+See the selection documentation (I<perldoc Geo::Postcodes::Selection> or
+I<man Geo::Postcodes::Selection>) for a full description, and the tutorial
+(I<perldoc Geo::Postcodes::Tutorial> or I<man Geo::Postcodes::Tutorial>)
+for sample code.
+
 
 =head2 selection_loop
 
@@ -5463,9 +5461,9 @@ The postal location associated with the specified postcode.
 
 The number of the borough (kommune) where the postcode is located.
 
-=head2 kommunenr2kommune
+=head2 borough_number2borough
 
- my $borough = Geo::Postcodes::NO::kommunenr2kommune($borough);
+ my $borough = Geo::Postcodes::NO::borough_number2borough($borough);
 
 The name of the borough (kommune) with the specified borough number.
 
@@ -5481,9 +5479,9 @@ The name of the borough (kommune) where the postcode is located.
 
 The name of the county (fylke) where the postcode is located.
 
-=head2 kommunenr2fylke
+=head2 borough_number2county
 
- my $county = Geo::Postcodes::NO::kommunenr2fylke($borough_number);
+ my $county = Geo::Postcodes::NO::borough_number2county($borough_number);
 
 The name of the county (fylke) where the specified borough number
 (kommune nummer) is located.
@@ -5642,6 +5640,9 @@ Note that all names are given in UPPER CASE. This is courtesy of the norwegian
 postal service.
 
 =head1 SEE ALSO
+
+See also the sample programs in the C<eg/>-directory of the distribution, and
+the tutorial (C<perldoc Geo::Postcodes::Tutorial> or C<man Geo::Postcodes::Tutorial>).
 
 The latest version of this library should always be available on CPAN, but see
 also the library home page; F<http://bbop.org/perl/GeoPostcodes> for additional

@@ -2,13 +2,13 @@
 
 use strict;
 
-use Geo::Postcodes::NO 0.10;
+use Geo::Postcodes::NO 0.30;
 
 ################################################################################
 #                                                                              #
 #                                 basic_no                                     #
 #                                 --------                                     #
-#                 Arne Sommer - perl@bbop.org - 21. July 2006                  #
+#              Arne Sommer - perl@bbop.org - 9. September 2006                 #
 #                                                                              #
 ################################################################################
 
@@ -24,11 +24,11 @@ foreach my $postcode (@ARGV)
   {
     my $P = Geo::Postcodes::NO->new($postcode);
 
-    foreach my $method (Geo::Postcodes::NO::get_methods())
-      # Iterate over the methods supported by a norwegian postcode object.
+    foreach my $field (Geo::Postcodes::NO::get_fields())
+      # Iterate over the fields supported by a norwegian postcode object.
     {
-      printf("%-10s\t%s\n", ucfirst($method), $P->$method() || ""),
-        # Print the method name, and the result of the method call.
+      printf("%-10s\t%s\n", ucfirst($field), $P->$field() || ""),
+        # Print the field name, and the result of the field call.
     }
 
     printf("%-10s\t%s\n\n", "Type_english", 

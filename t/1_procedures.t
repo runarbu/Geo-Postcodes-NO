@@ -2,7 +2,7 @@
 #                                                                             #
 #          Geo::Postcodes::NO Test Suite 1 - Procedural interface             #
 #          ------------------------------------------------------             # 
-#               Arne Sommer - perl@bbop.org  - 19. July 2006                  #
+#             Arne Sommer - perl@bbop.org  - 9. September 2006                #
 #                                                                             #
 ###############################################################################
 #                                                                             #
@@ -42,7 +42,7 @@ is( Geo::Postcodes::NO::location_of      ($postcode), "OSLO", "Postcode > Locati
 is( Geo::Postcodes::NO::borough_number_of($postcode), "0301", "Postcode > Borough number");
 is( Geo::Postcodes::NO::borough_of       ($postcode), "OSLO", "Postcode > Borough");
 is( Geo::Postcodes::NO::county_of        ($postcode), "OSLO", "Postcode > County");
-is( Geo::Postcodes::NO::kommunenr2fylke  (Geo::Postcodes::NO::borough_number_of($postcode)), "OSLO", "Borough number > County");
+is( Geo::Postcodes::NO::borough_number2county  (Geo::Postcodes::NO::borough_number_of($postcode)), "OSLO", "Borough number > County");
 is( Geo::Postcodes::NO::type_of          ($postcode), "ST",             "Postcode > Type");
 is( Geo::Postcodes::NO::type_verbose_of  ($postcode), "Gateadresse",    "Postcode > Type");
 is( Geo::Postcodes::type_verbose_of      ($postcode), undef,            "Postcode > Type");
@@ -55,7 +55,7 @@ is( Geo::Postcodes::NO::location_of      ($postcode), "VINGELEN",    "Postcode >
 is( Geo::Postcodes::NO::borough_number_of($postcode), "0436",        "Postcode > Borough number");
 is( Geo::Postcodes::NO::borough_of       ($postcode), "TOLGA",       "Postcode > Borough");
 is( Geo::Postcodes::NO::county_of        ($postcode), "HEDMARK",     "Postcode > County");
-is( Geo::Postcodes::NO::kommunenr2fylke  (Geo::Postcodes::NO::borough_number_of($postcode)), "HEDMARK", "Borough Number > County");
+is( Geo::Postcodes::NO::borough_number2county  (Geo::Postcodes::NO::borough_number_of($postcode)), "HEDMARK", "Borough Number > County");
 is( Geo::Postcodes::NO::type_of          ($postcode), "ST",          "Postcode > Type");
 is( Geo::Postcodes::NO::type_verbose_of  ($postcode), "Gateadresse", "Postcode > Type");
 is( Geo::Postcodes::type_verbose_of      ($postcode), undef,         "Postcode > Type");
@@ -74,17 +74,17 @@ is( Geo::Postcodes::NO::borough_of ("9999"),            undef, "Undef caused by 
 is( Geo::Postcodes::NO::borough_of (undef),             undef, "Undef caused by illegal postcode");
 is( Geo::Postcodes::NO::borough_of ("Ett eller annet"), undef, "Undef caused by illegal postcode");
 
-is( Geo::Postcodes::NO::kommunenr2kommune ("9999"),            undef, "Undef caused by illegal borough number");
-is( Geo::Postcodes::NO::kommunenr2kommune (undef),             undef, "Undef caused by illegal borough number");
-is( Geo::Postcodes::NO::kommunenr2kommune ("Ett eller annet"), undef, "Undef caused by illegal borough number");
+is( Geo::Postcodes::NO::borough_number2borough ("9999"),            undef, "Undef caused by illegal borough number");
+is( Geo::Postcodes::NO::borough_number2borough (undef),             undef, "Undef caused by illegal borough number");
+is( Geo::Postcodes::NO::borough_number2borough ("Ett eller annet"), undef, "Undef caused by illegal borough number");
 
 is( Geo::Postcodes::NO::county_of ("9999"),            undef, "Undef caused by illegal postcode");
 is( Geo::Postcodes::NO::county_of (undef),             undef, "Undef caused by illegal postcode");
 is( Geo::Postcodes::NO::county_of ("Ett eller annet"), undef, "Undef caused by illegal postcode");
 
-is( Geo::Postcodes::NO::kommunenr2fylke ("9999"),            undef, "Undef caused by illegal borough number");
-is( Geo::Postcodes::NO::kommunenr2fylke (undef),             undef, "Undef caused by illegal borough number");
-is( Geo::Postcodes::NO::kommunenr2fylke ("Ett eller annet"), undef, "Undef caused by illegal borough number");
+is( Geo::Postcodes::NO::borough_number2county ("9999"),            undef, "Undef caused by illegal borough number");
+is( Geo::Postcodes::NO::borough_number2county (undef),             undef, "Undef caused by illegal borough number");
+is( Geo::Postcodes::NO::borough_number2county ("Ett eller annet"), undef, "Undef caused by illegal borough number");
 
 is( Geo::Postcodes::NO::type_of ("9999"),            undef, "Undef caused by illegal postcode");
 is( Geo::Postcodes::NO::type_of (undef),             undef, "Undef caused by illegal postcode");

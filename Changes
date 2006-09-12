@@ -1,5 +1,32 @@
 Revision history for Perl extension Geo::Postcodes::NO
 ------------------------------------------------------
+2006-09-12 21:00 Arne Sommer
+ * Released version 0.30.
+
+2006-09-12 13:00 Arne Sommer
+ * Added a sample program 'eg/static_no', using the new 'procedure'
+   feature of the 'selection' procedure/method.
+
+2006-09-12 01:00 Arne Sommer
+ * Added tests in 't/6_validselection.t' for the new selection feature
+   'procedure' in the 'verify_selectionlist' procedure.
+
+2006-09-11 13:00 Arne Sommer
+ * Added the test file 't/8_exporter.t' testing that the available
+   methods and procedures really are available.
+
+2006-09-09 12:00 Arne Sommer
+ * Renamed the supporting procedure "kommunenr2kommune" to
+   "borough_number2borough", and "kommunenr2fylke" to "borough_number2county".
+
+2006-09-09 11:00 Arne Sommer
+ * Renamed the procedure/method 'get_methods' to 'get_fields', and 'is_method'
+   to 'is_field', to avoid confusion with the generic name 'method'. Renamed
+   the test file 't/4_methods.t' to 't/4_fields.t'.
+
+2006-09-07 20:00 Arne Sommer
+ * Released version 0.21.
+
 2006-09-07 19:00 Arne Sommer
  * Added the test file 't/6_validselection.t' testing the
    'verify_selectionlist' procedure.

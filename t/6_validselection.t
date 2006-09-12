@@ -2,7 +2,7 @@
 #                                                                             #
 #         Geo::Postcodes::NO Test Suite 6 - Valid selection list              #
 #         ------------------------------------------------------              #
-#             Arne Sommer - perl@bbop.org - 7. September 2006                 #
+#            Arne Sommer - perl@bbop.org - 12. September 2006                 #
 #                                                                             #
 ###############################################################################
 #                                                                             #
@@ -11,9 +11,9 @@
 #                                                                             #
 ###############################################################################
 
-use Test::More tests => 40;
+use Test::More tests => 45;
 
-BEGIN { use_ok('Geo::Postcodes::NO') };
+BEGIN { use_ok('Geo::Postcodes::NO', 0.30) };
 
 ###############################################################################
 
@@ -60,7 +60,7 @@ invalid('xor not');
   valid('xor not',    'postcode', '12..');
   valid('xor', 'not', 'postcode', '12..');
 
-  valid('postcode', 'what do you think?'); # A valid method, and an arbitrary value
+  valid('postcode', 'what do you think?'); # A valid field, and an arbitrary value
   valid('postcode', '12..', 'and not',    'postcode', '12..');
   valid('postcode', '12..', 'and', 'not', 'postcode', '12..');
 
@@ -75,6 +75,16 @@ invalid('elephant', 'Dumbo');
 invalid('address',  '%s%');
   valid('county',   'F%');
   valid('borough',  '%øy');
+
+###############################################################################
+
+  valid('procedure', \&test);      # But only because it is defined in this file.
+invalid('procedure', \&test2);     # Procedure does not exist.
+  valid('procedure', \&Geo::Postcodes::NO::get_fields);
+  valid('procedure', \&Geo::Postcodes::get_fields);
+invalid('procedure', \&get_fields);
+
+sub test {}
 
 ###############################################################################
 

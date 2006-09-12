@@ -2,53 +2,53 @@
 
 use strict;
 
-use Geo::Postcodes::NO 0.21;
+use Geo::Postcodes::NO 0.30;
 
 ################################################################################
 #                                                                              #
 #                                selection_no                                  #
 #                                ------------                                  #
-#               Arne Sommer - perl@bbop.org - 04. September 2006               #
+#              Arne Sommer - perl@bbop.org - 9. September 2006                 #
 #                                                                              #
 ################################################################################
 
 unless (@ARGV == 2)
 {
-  print "Usage: selection_no <method> <string>\n";
-  print "Legal methods: ", join(" ", Geo::Postcodes::NO::get_methods()), ".\n";
+  print "Usage: selection_no <field> <string>\n";
+  print "Legal fields: ", join(" ", Geo::Postcodes::NO::get_fields()), ".\n";
   exit;
 }
 
-my $method = shift(@ARGV);
+my $field = shift(@ARGV);
 my $string = shift(@ARGV);
 
-my @methods;
+my @fields;
 
-if (Geo::Postcodes::NO::is_method($method)) # Legal method
+if (Geo::Postcodes::NO::is_field($field)) # Legal field
 {
-  @methods = Geo::Postcodes::NO::get_methods();
-    # Get all the methods supported by this module.
+  @fields = Geo::Postcodes::NO::get_fields();
+    # Get all the fields supported by this module.
 
-  foreach my $m (@methods)
+  foreach my $m (@fields)
   {
     printf("%-14s", ucfirst($m)); # Print headers for each column
   }
   print "\n";
 
-  Geo::Postcodes::NO->selection_loop(\&print_it, $method, $string);
+  Geo::Postcodes::NO->selection_loop(\&print_it, $field, $string);
     # Call each postcode object on to the 'loop' procedure.
 
   print "\n";
 }
-else # illegal method.
+else # illegal field.
 {
-  print "Not a legal method '$method'.\n";
+  print "Not a legal field '$field'.\n";
 }
 
 sub print_it
 {
   my $object = shift;
-  foreach my $m (@methods)                # Iterate over the methods for each object
+  foreach my $m (@fields)                # Iterate over the fields for each object
   {
     printf("%-14s", $object->$m() || ""); # Print the column data, or nothing if empty
   }
