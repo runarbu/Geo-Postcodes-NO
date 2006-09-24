@@ -35,6 +35,7 @@ poststedet ved hjelp av AJAX (i praksis heller AHAH) i sanntid.
 Oppdatert oversikt
 ------------------
 Jeg skal forsøke å å holde postnummerlisten oppdatert, men det er mulig å
-gjøre dette selv (selv om jeg ikke anbefaler det). Se filen "./bin/README". 
+gjøre dette selv ved å taste én kommando (selv om jeg ikke anbefaler det).
+Se filen "./misc/README" for detaljene. 
 
-Arne Sommer - arne@cpan.org
+Arne Sommer - perl@bbop.org

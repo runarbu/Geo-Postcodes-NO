@@ -4,9 +4,10 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
     'NAME'		=> 'Geo::Postcodes::NO',
-    'VERSION_FROM'	=> 'NO.pm', # finds $VERSION
-    'PREREQ_PM'		=> { Geo::Postcodes => 0.30 },
+    'VERSION_FROM'	=> 'lib/Geo/Postcodes/NO.pm', # finds $VERSION
+    'PREREQ_PM'		=> { Geo::Postcodes => 0.31 },
+    'PL_FILES'          => {}, # Property of Build.pm
     ($] >= 5.005 ?    ## Add these new keywords supported since 5.005
-      (ABSTRACT_FROM => 'NO.pm', # retrieve abstract from module
+      (ABSTRACT_FROM => 'lib/Geo/Postcodes/NO.pm', # retrieve abstract from module
        AUTHOR     => 'Arne Sommer <perl@bbop.org>') : ()),
 );

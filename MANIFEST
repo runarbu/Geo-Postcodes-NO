@@ -1,14 +1,16 @@
 Changes
 LESMEG
 MANIFEST
+Build.PL
 Makefile.PL
-NO.pm
+lib/Geo/Postcodes/NO.pm
 README
-bin/README
-bin/update
+misc/README
+misc/update_no
 eg/basic_no
 eg/selection_no
 eg/multiselection_no
+eg/static_no
 t/1_procedures.t
 t/2_objects.t
 t/3_selection.t
@@ -18,4 +20,4 @@ t/6_validselection.t
 t/7_pod.t
 t/7_pod_coverage.t
 t/8_exporter.t
-META.yml                                 Module meta-data (added by MakeMaker)
+META.yml

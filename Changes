@@ -1,5 +1,27 @@
 Revision history for Perl extension Geo::Postcodes::NO
 ------------------------------------------------------
+2006-09-24 14:00 Arne Sommer
+ * Released version 0.31.
+
+2006-09-24 13:00 Arne Sommer
+ * Added a test in 't/3_selection.t' to check that 'selection' treats
+   'and', 'not' as 'and not'.
+
+2006-09-22 22:00 Arne Sommer
+ * Rewritten 'misc/update' to support the '-update' command line argument,
+   caused by by changes in 'Geo::Postcodes::Update'.
+
+2006-09-15 10:30 Arne Sommer
+ * Made some minor changes in 'misc/update', caused by changes in
+   'Geo::Postcodes::Update', and renamed the program to 'misc/update_no'. 
+
+2006-09-14 23:00 Arne Sommer
+ * Added support for 'Build.PL', in addition to the present 'Makefile.PL'.
+   This reqired moving 'NO.pm' to a new directory 'lib/Geo/Postcodes/' in the
+   distribution.
+ * Renamed the 'bin' directory to 'misc' to avoid installation of the files in
+   it by 'Build.PL'. This caused some changes in the code.
+
 2006-09-12 21:00 Arne Sommer
  * Released version 0.30.
 
@@ -16,8 +38,8 @@ Revision history for Perl extension Geo::Postcodes::NO
    methods and procedures really are available.
 
 2006-09-09 12:00 Arne Sommer
- * Renamed the supporting procedure "kommunenr2kommune" to
-   "borough_number2borough", and "kommunenr2fylke" to "borough_number2county".
+ * Renamed the supporting procedure 'kommunenr2kommune' to
+   'borough_number2borough', and 'kommunenr2fylke' to 'borough_number2county'.
 
 2006-09-09 11:00 Arne Sommer
  * Renamed the procedure/method 'get_methods' to 'get_fields', and 'is_method'
@@ -137,5 +159,5 @@ Revision history for Perl extension Geo::Postcodes::NO
  * Released version 0.01.
   
 2006-07-07 19:00 Arne Sommer
- * Original version; created by "h2xs -Xan Geo::Postcodes::NO".
+ * Original version; created by 'h2xs -Xan Geo::Postcodes::NO'.
 

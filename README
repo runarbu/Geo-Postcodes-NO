@@ -3,12 +3,19 @@ Geo::Postcodes::NO::README
 This module gives the official (Posten Norge BA) mapping between norwegian
 postal codes and the postal location, borough (kommune) and county (fylke).
 
-It can be used object oriented (postnummer objects), or as procedures.
+It can be used object oriented (postcode objects), or as procedures.
 Take your pick.
 
 INSTALLATION
 
-To install this module type the following:
+To install this module type the following, if you are using Build.PL:
+
+   perl Build.PL
+  ./Build
+  ./Build test
+  ./Build install
+
+Or the following, if you are using MakeMaker:
 
    perl Makefile.PL
    make
@@ -17,7 +24,7 @@ To install this module type the following:
 
 DEPENDENCIES
 
-It is a subclass of Geo::Postcodes, which must be installed first.
+This module is a sublass of Geo::Postcodes, which must be installed first.
 
 USAGE
 
@@ -25,11 +32,15 @@ See the documentation with the command 'perldoc Geo::Postcodes::NO.pm'
 in the source directory. 'perldoc Geo::Postcodes::NO' or 'man
 Geo::Postcodes::NO' can be used after installation.
 
-Se also the LESMEG file, written in norwegian.
+It is possible to update the postcodes yourself, with a single command,
+but this is not recommended. See the file './misc/README'.
+
+
+See also the LESMEG file, written in norwegian.
 
 COPYRIGHT AND LICENCE
 
-Copyright (C) 2006 by Arne Sommer - arne@cpan.org
+Copyright (C) 2006 by Arne Sommer - perl@bbop.org
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself. 

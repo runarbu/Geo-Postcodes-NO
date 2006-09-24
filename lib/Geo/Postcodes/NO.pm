@@ -1,12 +1,18 @@
 package Geo::Postcodes::NO;
 
-use Geo::Postcodes 0.30;
+#################################################################################
+#                                                                               #
+#           This file is written by Arne Sommer - perl@bbop.org                 #
+#                                                                               #
+#################################################################################
+
+use Geo::Postcodes 0.31;
 use base qw(Geo::Postcodes);
 
 use strict;
 use warnings;
 
-our $VERSION = '0.30';
+our $VERSION = '0.31';
 
 ## Which fields are available ##################################################
 
@@ -262,8 +268,8 @@ sub selection_loop
     # Black magic.
 }
 
-## bin/update begin
-## This data structure was auto generated on Thu Jul 20 00:26:20 2006. Do NOT edit it!
+## misc/update begin
+## This data structure was auto generated on Fri Sep 15 22:04:54 2006. Do NOT edit it!
 
 $borough_number{'0001'} = '0301'; $type{'0001'} = 'IO'; $location{'0001'} = 'OSLO';
 $borough_number{'0010'} = '0301'; $type{'0010'} = 'MU'; $location{'0010'} = 'OSLO';
@@ -5268,7 +5274,7 @@ $borough{'2121'} = 'BJØRNØYA';
 $borough{'2131'} = 'HOPEN';
 $borough{'2211'} = 'JAN MAYEN';
 
-## bin/update end
+## misc/update end
 
 # Autoload methods go after =cut, and are processed by the autosplit program.
 
@@ -5641,20 +5647,20 @@ postal service.
 
 =head1 SEE ALSO
 
-See also the sample programs in the C<eg/>-directory of the distribution, and
-the tutorial (C<perldoc Geo::Postcodes::Tutorial> or C<man Geo::Postcodes::Tutorial>).
+See also the sample programs in the C<eg/>-directory of the distribution, the
+tutorial (C<perldoc Geo::Postcodes::Tutorial> or C<man Geo::Postcodes::Tutorial>)
+and the selection manual (I<perldoc Geo::Postcodes::Selection> or
+I<man Geo::Postcodes::Selection>) for usage details.
 
 The latest version of this library should always be available on CPAN, but see
 also the library home page; F<http://bbop.org/perl/GeoPostcodes> for additional
 information and sample usage.
 
-=head1 AUTHOR
+=head1 COPYRIGHT AND LICENCE
 
-Arne Sommer, E<lt>perl@bbop.orgE<gt>
+Copyright (C) 2006 by Arne Sommer - perl@bbop.org
 
-=head1 LICENSE
-
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself. 
+This library is free software; you can redistribute them and/or modify
+it under the same terms as Perl itself.
 
 =cut

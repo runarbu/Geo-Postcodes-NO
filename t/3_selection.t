@@ -2,7 +2,7 @@
 #                                                                             #
 #        Geo::Postcodes::NO Test Suite 3 - The 'selection' procedure          #
 #        -----------------------------------------------------------          #
-#               Arne Sommer - perl@bbop.org  - 31. August 2006                #
+#             Arne Sommer - perl@bbop.org  - 24. September 2006               #
 #                                                                             #
 ###############################################################################
 #                                                                             #
@@ -11,7 +11,7 @@
 #                                                                             #
 ###############################################################################
 
-use Test::More tests => 17;
+use Test::More tests => 18;
 
 BEGIN { use_ok('Geo::Postcodes::NO') };
 
@@ -116,12 +116,15 @@ is_deeply(\@or1, \@or, "selection('or', ...");
 ###############################################################################
 
 my @not  = qw(6781 6782 6783);
-my @not1 = Geo::Postcodes::NO::selection('not',     location => '%[aeiou∆ÿ≈]%');
-my @not2 = Geo::Postcodes::NO::selection('and not', location => '%[aeiou]%',
-                                                    location => '%[∆ÿ≈]%');
+my @not1 = Geo::Postcodes::NO::selection('not',        location => '%[aeiou∆ÿ≈]%');
+my @not2 = Geo::Postcodes::NO::selection('and not',    location => '%[aeiou]%',
+                                                       location => '%[∆ÿ≈]%');
+my @not3 = Geo::Postcodes::NO::selection('and', 'not', location => '%[aeiou]%',
+                                                       location => '%[∆ÿ≈]%');
 
-is_deeply(\@not1, \@not, "selection('and not', ...");
-is_deeply(\@not2, \@not, "selection('and not', ...");
+is_deeply(\@not1, \@not, "selection('not',        ...");
+is_deeply(\@not2, \@not, "selection('and not',    ...");
+is_deeply(\@not3, \@not, "selection('and', 'not', ...");
 
 ###############################################################################
 
