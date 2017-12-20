@@ -1,6 +1,6 @@
 ---
 name: Geo-Postcodes-NO
-version: 0.31
+version: 0.32
 author:
 abstract: Norwegian postcodes with associated information
 license: perl
@@ -14,6 +14,6 @@ meta-spec:
 provides:
   Geo::Postcodes::NO:
     file: lib/Geo/Postcodes/NO.pm
-    version: 0.31
+    version: 0.32
 resources:
   license: http://dev.perl.org/licenses/

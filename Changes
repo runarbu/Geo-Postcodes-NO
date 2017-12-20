@@ -1,5 +1,9 @@
 Revision history for Perl extension Geo::Postcodes::NO
 ------------------------------------------------------
+2017-12-20 14:00 Runar Buvik
+ * Fixed 'Non-ASCII character seen before =encoding' error
+ * Released version 0.32.
+
 2006-09-24 14:00 Arne Sommer
  * Released version 0.31.
 
