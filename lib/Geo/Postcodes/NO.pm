@@ -5281,6 +5281,8 @@ $borough{'2211'} = 'JAN MAYEN';
 1;
 __END__
 
+=encoding utf8
+
 =head1 NAME
 
 Geo::Postcodes::NO - Norwegian postcodes with associated information
